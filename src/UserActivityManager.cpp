@@ -26,6 +26,9 @@ void RunActivity(UActivityManager::ConfigManager* CfgMgr); // Gets info about wh
 // This function executes from main file, when user selects.
 void UActivityManager::run() {
 	ClearEnv();
+
+	// Initialize Config Manager
+	UActivityManager::ConfigManager CfgMgr;
 	
 	// List & Print Options.
 	vector<string> options = { "Add Activity", "Remove Activity",
@@ -37,7 +40,6 @@ void UActivityManager::run() {
 	GetInput("Select: ", &choiceStr);
 	int choice = atoi(choiceStr.c_str());
 	
-	UActivityManager::ConfigManager CfgMgr;
 	// Validate input & handle.
 	switch (choice) {
 	case 1:
@@ -57,7 +59,6 @@ void UActivityManager::run() {
 		cin.get();
 		return;
 	}
-	return;
 }
 
 // Lists activities and asks user to select one with specified question

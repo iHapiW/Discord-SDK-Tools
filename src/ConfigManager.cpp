@@ -1,11 +1,35 @@
 #include <fstream>
+#include <sys/stat.h>
+#include <stdlib.h>
+#include <direct.h>
 
 #include <nlohmann/json.hpp>
 
 #include "ConfigManager.h"
+#include "iocontrol.h"
 
 using namespace std;
+using namespace io;
 using namespace nlohmann;
+
+UActivityManager::ConfigManager::ConfigManager() {
+	struct stat buffer;
+	string FolderPath = (string) getenv("APPDATA") + "\\DiscordSDKTools";
+	string ConfigPath = FolderPath + "\\config.json";
+	if (stat(FolderPath.c_str(), &buffer) != 0) {
+		int result = _mkdir(FolderPath.c_str());
+		if (result != 0) {
+			PrintErr("Could\'nt Create \"DiscordSDKTools\" Directory in System AppData Folder");
+			cin.get();
+			exit(1);
+		}
+	}
+	if (stat(ConfigPath.c_str(), &buffer) != 0) {
+		fstream Config(ConfigPath, ios::out);
+		Config.write("[]", 2);
+		Config.close();
+	}
+}
 
 // Lists activities into vector & returns.
 void UActivityManager::ConfigManager::ListActivities(vector<json>* result) {
