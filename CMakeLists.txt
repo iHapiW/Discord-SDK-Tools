@@ -13,6 +13,8 @@ find_package(nlohmann_json CONFIG REQUIRED)
 file(GLOB SRC_List 
 	"${CMAKE_CURRENT_SOURCE_DIR}/discord-files/*.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/model/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/controller/*.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SRC_List})

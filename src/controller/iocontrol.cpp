@@ -1,10 +1,11 @@
 ﻿#include <iostream>
 #include <stdlib.h>
+#include <vector>
 #include <string>
 #include <sstream>
 
 #include <nlohmann/json.hpp>
-#include "iocontrol.h"
+#include "controller/iocontrol.h"
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -42,7 +43,7 @@ void io::PrintErr(const char* message) {
 void io::PrintOptions(vector<string>* options) {
 	size_t size = options->size();
 	for (unsigned int i = 0; i < size; i++) {
-		cout << endl << "     [" << CYAN << i + 1 << RESET << "] " << (* options)[i] << endl;
+		cout << endl << "    [" << CYAN << i + 1 << RESET << "] " << (* options)[i] << endl;
 	}
 	cout << endl;
 }
@@ -70,25 +71,52 @@ void io::PrintBanner() {
 
  void io::ActivitytoStr(json* activity, string* result) {
 	stringstream stream;
-	stream << "Application ID:    ";
-	stream << GREEN << (* activity)["Application_ID"] << RESET;
-	stream << "\n\t Activity Details: ";
-	stream << GREEN << (* activity)["Details"] << RESET;
-	stream << "\n\t Activity State:   ";
-	stream << GREEN << (* activity)["State"] << RESET;
-	stream << "\n\t Has Time Stamp:    ";
-	stream << GREEN << (* activity)["HasTimeStamp"] << RESET;
-	stream << "\n\n\t Activity Large Image:\n\n\t     Name:        ";
-	stream << GREEN << (* activity)["LargeImage"] << RESET;
-	stream << "\n\t     Hover Text:  ";
-	stream << GREEN << (* activity)["LargeText"] << RESET;
-	stream << "\n\n\t Activity Small Image:\n\n\t     Name:        ";
-	stream << GREEN << (* activity)["SmallImage"] << RESET;
-	stream << "\n\t     Hover Text:  ";
-	stream << GREEN << (* activity)["SmallText"] << RESET;
-	stream << "\n\n\t" << MAGENTA <<"----------------------------------------\n" << RESET;
+	vector<string> tmp;
+
+	io::ActivitytoVectStr(activity, &tmp);
+	for (auto iter = tmp.begin(); iter != tmp.end(); iter++) {
+		stream << *iter << "\n\t";
+	}
+	stream << "\n\n\t" << BOLDBLUE <<"----------------------------------------\n" << RESET;
 	*result = stream.str();
 }
+
+ void io::ActivitytoVectStr(json* activity, vector<string>* result) {
+	 stringstream stream;
+	 result->clear();
+	 stream << YELLOW << " Application_ID" << RESET << ":    ";
+	 stream << GREEN << (*activity)["Application_ID"] << RESET;
+	 result->push_back(stream.str());
+	 stream.str(string());
+	 stream << YELLOW << " Details" << RESET << ":          ";
+	 stream << GREEN << (*activity)["Details"] << RESET;
+	 result->push_back(stream.str());
+	 stream.str(string());
+	 stream << YELLOW << " State" << RESET << ":            ";
+	 stream << GREEN << (*activity)["State"] << RESET;
+	 result->push_back(stream.str());
+	 stream.str(string());
+	 stream << YELLOW << " HasTimeStamp" << RESET << ":      ";
+	 stream << GREEN << (*activity)["HasTimeStamp"] << RESET;
+	 result->push_back(stream.str());
+	 stream.str(string());
+	 stream << YELLOW << " LargeImage" << RESET << ":       ";
+	 stream << GREEN << (*activity)["LargeImage"] << RESET;
+	 result->push_back(stream.str());
+	 stream.str(string());
+	 stream << YELLOW << " LargeText" << RESET << ":        ";
+	 stream << GREEN << (*activity)["LargeText"] << RESET;
+	 result->push_back(stream.str());
+	 stream.str(string());
+	 stream << YELLOW << " SmallImage" << RESET << ":       ";
+	 stream << GREEN << (*activity)["SmallImage"] << RESET;
+	 result->push_back(stream.str());
+	 stream.str(string());
+	 stream << YELLOW << " SmallText" << RESET << ":        ";
+	 stream << GREEN << (*activity)["SmallText"] << RESET;
+	 result->push_back(stream.str());
+	 stream.str(string());
+ }
 
  void io::ClearEnv() {
 	 system("cls");

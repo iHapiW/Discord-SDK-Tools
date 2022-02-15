@@ -4,8 +4,8 @@
 #include <nlohmann/json.hpp>
 #include "discord-files/discord.h"
 
-#include "iocontrol.h"
-#include "UserActivityManager.h"
+#include "controller/iocontrol.h"
+#include "controller/ActivityController.h"
 
 using namespace std;
 using namespace io;
@@ -23,7 +23,7 @@ int main() {
 
         switch (atoi(choice.c_str())) {
         case 1:
-            UActivityManager::run();
+            ActivityController::run();
             break;
         default:
             PrintErr("Invalid Option.");

@@ -5,8 +5,8 @@
 
 #include <nlohmann/json.hpp>
 
-#include "ConfigManager.h"
-#include "iocontrol.h"
+#include "model/ConfigManager.h"
+#include "controller/iocontrol.h"
 
 using namespace std;
 using namespace io;
@@ -76,7 +76,6 @@ json UActivityManager::ConfigManager::GetConfig() {
 	ConfigFile.close();
 
 	return Config;
-
 }
 
 void UActivityManager::ConfigManager::SetConfig(nlohmann::json* config) {

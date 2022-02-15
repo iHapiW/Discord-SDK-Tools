@@ -1,7 +1,8 @@
 ﻿#pragma once
 
 #include <iostream>
-#include <string.h>
+#include <string>
+#include <vector>
 
 #include <nlohmann/json.hpp>
 
@@ -16,5 +17,6 @@ namespace io {
 	void GetInput(const char* message, string* result);
 	void PrintBanner();
 	void ActivitytoStr(json* activity, string* result);
+	void ActivitytoVectStr(json* activity, vector<string>* result);
 	void ClearEnv();
 }
